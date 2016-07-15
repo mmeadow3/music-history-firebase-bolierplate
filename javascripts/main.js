@@ -7,18 +7,34 @@ let $ = require('jquery'),
 
 // Using the REST API
 function loadSongsToDOM() {
-
+  $(".uiContainer--wrapper").html(""); //////this empties out the wrapper//////
+  db.getSongs()
+  .then(function(songData){
+    templates.makeSongList(songData.songs)
+  })
 }
 loadSongsToDOM();
 
 // Send newSong data to db then reload DOM with updated song data
 $(document).on("click", ".save_new_btn", function() {
-
+  let songObj = buildSongObj();
+  db.addSong(songObj)
+  .then(function(songId){
+    console.log("song Saved", songId);
+    loadSongsToDOM();
+  })
 });
 
 // Load and populate form for editing a song
 $(document).on("click", ".edit-btn", function () {
-
+  let songId = $(this).data("edit-id");
+  db.getSong(songId)
+  .then(function(song){
+    return templates.songForm(song, songId)
+  })
+  .then(function(finishedFrom){
+    $(".uiContainer--wrapper").html(finishedFrom);
+  })
 });
 
 //Save edited song to FB then reload DOM with updated song data
