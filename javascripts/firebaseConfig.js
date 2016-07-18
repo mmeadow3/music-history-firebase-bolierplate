@@ -2,7 +2,7 @@
 
 let firebase = require("firebase/app"),
     fb = require("./fb-getter"),
-    fbData = fb();   /////////ths is running the function from the line above 
+    fbData = fb();
 
 require("firebase/auth");
 require("firebase/database");
@@ -10,7 +10,7 @@ require("firebase/database");
 var config = {
   apiKey: fbData.key,
   databaseURL: fbData.url,
-  authUrl: fbData.authUrl,
+  authDomain: fbData.authUrl,
   storageBucket: fbData.bucketUrl
 };
 
